@@ -2302,4 +2302,11 @@ config CMD_UBIFS
 	help
 	  UBIFS is a file system for flash devices which works on top of UBI.
 
+config CMD_VFD
+	bool "VFD command support"
+	depends on OPENVFD
+	default y if OPENVFD
+	help
+	  Enables VFD commands
+
 endmenu
