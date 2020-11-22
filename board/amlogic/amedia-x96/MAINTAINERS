@@ -1,0 +1,7 @@
+AMEDIA-X96
+M:	Chen Caidy <chen@caidy.cc>
+S:	Maintained
+L:	u-boot-amlogic@groups.io
+F:	board/amlogic/amedia-x96/
+F:	configs/amedia-x96air_defconfig
+F:	doc/board/amlogic/amedia-x96.rst

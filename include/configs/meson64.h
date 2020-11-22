@@ -71,12 +71,26 @@
 
 #include <config_distro_bootcmd.h>
 
+#define PREBOOT_LOAD_LOGO \
+	"echo Loading boot logo to $loadaddr ...; " \
+	"ll=1 && " \
+	"load mmc 0 $loadaddr splash.bmp || " \
+	"load mmc 1 $loadaddr splash.bmp || " \
+	"load mmc 0:2 $loadaddr /usr/share/logo/logo.bmp || " \
+	"load mmc 1:2 $loadaddr /usr/share/logo/logo.bmp || ll=0; " \
+	"test $ll = 1 && bmp display $loadaddr m m || ll=0; "
+
+#define PREBOOT_CMD "vfd title boot; run load_logo; sleep 1;"
+
 #ifndef CONFIG_EXTRA_ENV_SETTINGS
 #define CONFIG_EXTRA_ENV_SETTINGS \
+	"load_logo=" PREBOOT_LOAD_LOGO "\0" \
+	"preboot=" PREBOOT_CMD "\0" \
 	"stdin=" STDIN_CFG "\0" \
 	"stdout=" STDOUT_CFG "\0" \
 	"stderr=" STDOUT_CFG "\0" \
 	"fdt_addr_r=0x08008000\0" \
+	"loadaddr=0x01000000\0" \
 	"scriptaddr=0x08000000\0" \
 	"kernel_addr_r=0x08080000\0" \
 	"pxefile_addr_r=0x01080000\0" \
