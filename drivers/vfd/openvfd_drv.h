@@ -166,8 +166,7 @@ struct vfd_display_data {
 		u_int16 channel_count;
 	} channel_data;
 
-	char string_main[512];
-	char string_secondary[128];
+	char string_main[64];
 };
 
 enum {

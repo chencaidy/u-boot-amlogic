@@ -76,6 +76,7 @@ static size_t fd628_write_data_real(unsigned char address, const unsigned char *
 
 static unsigned char fd628_init(void)
 {
+	unsigned char buf[7] = {0};
 	unsigned char slow_freq = dev->dtb_active.display.flags & DISPLAY_FLAG_LOW_FREQ;
 	protocol = dev->dtb_active.display.controller == CONTROLLER_HBS658 ?
 		init_sw_i2c(0, LSB_FIRST, 1, dev->clk_pin, dev->dat_pin, slow_freq ? I2C_DELAY_20KHz : I2C_DELAY_100KHz, NULL) :
@@ -138,6 +139,7 @@ static unsigned char fd628_init(void)
 	}
 
 	ram_size = ram_grid_size * ram_grid_count;
+	fd628_write_data(buf, sizeof(buf));
 	fd628_set_brightness_level(dev->brightness);
 	memset(dev->wbuf, 0x00, sizeof(dev->wbuf));
 	return 1;

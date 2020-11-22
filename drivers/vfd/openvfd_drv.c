@@ -307,6 +307,17 @@ static int request_pin(int node, const char *name, struct vfd_pin *pin, unsigned
 	return ret;
 }
 
+inline void reset_display_data(void)
+{
+	memset(&disp, 0, sizeof(disp));
+	disp.mode = DISPLAY_MODE_TITLE;
+	disp.string_main[0] = ' ';
+	disp.string_main[1] = ' ';
+	disp.string_main[2] = ' ';
+	disp.string_main[3] = ' ';
+	pdata->dev->status_led_mask = 0;
+}
+
 int openvfd_driver_probe(void)
 {
 	int node, state = -EINVAL;
@@ -359,6 +370,7 @@ int openvfd_driver_probe(void)
 	mutex_lock(&mutex);
 	init_controller(pdata->dev);
 	controller->set_brightness_level(vfd_brightness);
+	reset_display_data();
 	mutex_unlock(&mutex);
 
 	return 0;
@@ -400,14 +412,10 @@ int openvfd_driver_remove(void)
 void openvfd_set_title(const char *seg_str)
 {
 	mutex_lock(&mutex);
-
-	memset(&disp, 0, sizeof(disp));
-	disp.mode = DISPLAY_MODE_TITLE;
-	disp.string_main[1] = seg_str[0];
-	disp.string_main[2] = seg_str[1];
-	disp.string_main[3] = seg_str[2];
-	disp.string_main[4] = seg_str[3];
-
+	disp.string_main[0] = seg_str[0];
+	disp.string_main[1] = seg_str[1];
+	disp.string_main[2] = seg_str[2];
+	disp.string_main[3] = seg_str[3];
 	openvfd_dev_write((char *)&disp, sizeof(disp));
 	mutex_unlock(&mutex);
 }
@@ -415,12 +423,10 @@ void openvfd_set_title(const char *seg_str)
 void openvfd_set_icon(const char *name, bool on)
 {
 	mutex_lock(&mutex);
-
 	if (on)
 		led_on_store(name);
 	else
 		led_off_store(name);
-
 	openvfd_dev_write((char *)&disp, sizeof(disp));
 	mutex_unlock(&mutex);
 }
@@ -428,6 +434,7 @@ void openvfd_set_icon(const char *name, bool on)
 void openvfd_clear(void)
 {
 	mutex_lock(&mutex);
-	openvfd_dev_write("\0\0\0\0\0", 5);
+	reset_display_data();
+	openvfd_dev_write((char *)&disp, sizeof(disp));
 	mutex_unlock(&mutex);
 }
