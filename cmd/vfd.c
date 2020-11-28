@@ -1,7 +1,6 @@
-// SPDX-License-Identifier: GPL-2.0+
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 /*
- * (C) Copyright 2002
- * Detlev Zundel, DENX Software Engineering, dzu@denx.de.
+ * Copyright (c) 2020 Chen Caidy <chen@caidy.cc>
  */
 
 /*
