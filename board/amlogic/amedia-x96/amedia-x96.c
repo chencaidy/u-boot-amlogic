@@ -1,7 +1,6 @@
-// SPDX-License-Identifier: GPL-2.0+
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
 /*
- * Copyright (C) 2020 Caidy
- * Author: Chen Caidy <chen@caidy.cc>
+ * Copyright (c) 2020 Chen Caidy <chen@caidy.cc>
  */
 
 #include <command.h>
